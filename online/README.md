@@ -25,20 +25,19 @@ Next step is to set up InfluxDB. We need to change the port to the second port (
 
 Create a database called `ts` as so:
 
-    CREATE DATABASE ts
-    ALTER RETENTION POLICY default ON ts DURATION 1d
+    CREATE DATABASE tsdemo
+    ALTER RETENTION POLICY default ON tsdemo DURATION 1d
 
 Now use the `Write Data` link (in the WebUI) to create some data:
 
-        src0,lat=40,lon=2 v=1
-        src0,lat=40,lon=2 v=2
-        src0,lat=40,lon=2 v=5
-        src0,lat=40,lon=2 v=3
-        src0,lat=40,lon=2 v=8
+        crimedata0,case-no=HY467388,type=battery,lat=41.74,lon=-87.55 v=1
+        crimedata0,case-no=HY467389,type=robbery,lat=41.99,lon=-87.59 v=1
+        crimedata0,case-no=HY467390,type=narcotics,lat=41.81,lon=-87.67 v=1
+        crimedata0,case-no=HY467391,type=robbery,lat=41.86,lon=-87.40 v=1
 
 Then you can query it like so:
 
-        SELECT * FROM src0
+        SELECT * FROM crimedata0
 
 Last step is to create an administrator user with `admin`|`admin`. See also the [InfluxDB guide](https://influxdb.com/docs/v0.9/introduction/overview.html).
 
@@ -59,9 +58,15 @@ Deploy Grafana in Marathon:
 
 And again, following the same steps as above we discover Grafana running on `http://ec2-52-27-229-31.us-west-2.compute.amazonaws.com:21403` (log in with `admin`|`admin`).
 
-Next, we need to connect InfluxDB to Grafana.
+Next, we need to connect InfluxDB to Grafana:
+
+![Grafana Influx Setup](../img/grafana-influx-setup.png)
 
 Note: use the second InfluxDB port (in my case `20317`) to configure the datasource. See also the [Grafana-InfluxDB setup](http://docs.grafana.org/datasources/influxdb/).
+
+Now you can define a dashboard and add a graph:
+
+![Grafana Graph Setup](../img/grafana-graph-setup.png)
 
 ## Teeing it all together
 
