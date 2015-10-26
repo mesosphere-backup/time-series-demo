@@ -2,26 +2,43 @@
 
 ## InfluxDB
 
-Deploy InfluxDB in Marathon:
+### Install InfluxDB
+
+Deploy [InfluxDB](https://influxdb.com/docs/v0.9/introduction/overview.html) in Marathon:
 
     $ dcos marathon app add marathon-influxdb.json
 
-Where does it run?
+OK, now, where does InfluxDB run? How can I access the Web UI and HTTP API?
 
-    $ dcos marathon app show influxdb | grep -w tasks -A 8
-    "tasks": [
-      {
-        "appId": "/influxdb",
-        "host": "ip-10-0-7-124.us-west-2.compute.internal",
-        "id": "influxdb.3bb5669e-5baa-11e5-98ec-6ec316fc94b6",
-        "ports": [
-          20316,
-          20317
-        ],
-        
-Note this address (`ip-10-0-7-124.us-west-2.compute.internal`) and the first port (`20316`) and look it up in the AWS/EC2 console. In my case the public DNS was `ec2-54-200-134-49.us-west-2.compute.amazonaws.com` so we point our browser there.
+    $ dcos marathon task list
+    APP        HEALTHY          STARTED                             HOST                    ID
+    /grafana     True   2015-10-26T19:52:37.733Z  ip-10-0-6-140.us-west-2.compute.internal  grafana.0d96dc8f-7c1b-11e5-863e-06ff3f135d7f
+    /influxdb    True   2015-10-26T19:46:54.532Z  ip-10-0-6-140.us-west-2.compute.internal  influxdb.40a1fd4e-7c1a-11e5-863e-06ff3f135d7f
+    
+    $ dcos marathon task show influxdb.40a1fd4e-7c1a-11e5-863e-06ff3f135d7f
+    {
+      "appId": "/influxdb",
+      "host": "ip-10-0-6-140.us-west-2.compute.internal",
+      "id": "influxdb.40a1fd4e-7c1a-11e5-863e-06ff3f135d7f",
+      "ports": [
+        22371,
+        22372
+      ],
+      "servicePorts": [
+        10000,
+        10001
+      ],
+      "slaveId": "20151026-171728-1510342666-5050-1260-S3",
+      "stagedAt": "2015-10-26T19:46:30.032Z",
+      "startedAt": "2015-10-26T19:46:54.532Z",
+      "version": "2015-10-26T19:46:29.245Z"
+    }
 
-Next step is to set up InfluxDB itself. You change the port from `8086` to the second port (in my case: `22372`); this is where InfluxDB's API is. Then, log in with `admin`, `admin` and create a database called `tsdemo` as so:
+Note this address (`ip-10-0-6-140.us-west-2.compute.internal`) and the first port (`22371`), which is InfluxDB's Web UI (which per default runs on `8083`), and look it up in the AWS/EC2 console. In my case the public DNS was `ec2-54-200-134-49.us-west-2.compute.amazonaws.com` so we point our browser there.
+
+### Configure InfluxDB and ingest data
+
+Next step is to set up InfluxDB itself. You change the port from `8086` to the second port you gleaned above (in my case: `22372`); this is where InfluxDB's API is. Then, log in with `admin`, `admin` and create a database called `tsdemo` as so:
 
     CREATE DATABASE tsdemo
     ALTER RETENTION POLICY default ON tsdemo DURATION 1d
@@ -43,35 +60,54 @@ Of course, if you prefer a CLI-based approach that's also possible:
 
 Here, you'll have to replace `$PUBLIC_SLAVE_FQHN:22372` with your values. you 
 
-
 Then you can query it like so:
 
         SELECT * FROM crimedata0
 
-Last step is to create an administrator user with `admin`|`admin`. See also the [InfluxDB guide](https://influxdb.com/docs/v0.9/introduction/overview.html).
+You're all set. Next we set up Grafana and connect it to InfluxDB.
 
 ## Grafana
+
+### Install Grafana
 
 Deploy Grafana in Marathon:
 
     $ dcos marathon app add marathon-grafana.json
-    $ dcos marathon app show grafana | grep -w tasks -A 8
-    "tasks": [
+
+How can I access Grafana?
+
+    $ dcos marathon task list
+    APP        HEALTHY          STARTED                             HOST                    ID
+    /grafana     True   2015-10-26T19:52:37.733Z  ip-10-0-6-140.us-west-2.compute.internal  grafana.0d96dc8f-7c1b-11e5-863e-06ff3f135d7f
+    /influxdb    True   2015-10-26T19:46:54.532Z  ip-10-0-6-140.us-west-2.compute.internal  influxdb.40a1fd4e-7c1a-11e5-863e-06ff3f135d7f
+    
+    $ dcos marathon task show grafana.0d96dc8f-7c1b-11e5-863e-06ff3f135d7f
     {
       "appId": "/grafana",
-      "host": "ip-10-0-7-124.us-west-2.compute.internal",
-      "id": "grafana.c393d2af-5bae-11e5-98ec-6ec316fc94b6",
+      "host": "ip-10-0-6-140.us-west-2.compute.internal",
+      "id": "grafana.0d96dc8f-7c1b-11e5-863e-06ff3f135d7f",
       "ports": [
-        21403
+        625
       ],
+      "servicePorts": [
+        10002
+      ],
+      "slaveId": "20151026-171728-1510342666-5050-1260-S3",
+      "stagedAt": "2015-10-26T19:52:13.862Z",
+      "startedAt": "2015-10-26T19:52:37.733Z",
+      "version": "2015-10-26T19:52:13.784Z"
+    }
 
-And again, following the same steps as above we discover Grafana running on `http://ec2-52-27-229-31.us-west-2.compute.amazonaws.com:21403` (log in with `admin`|`admin`).
+And again, following the same steps as above we discover that Grafana is running on `http://ec2-52-27-229-31.us-west-2.compute.amazonaws.com:625`. 
+You log in with `admin`, `admin` again and you're ready to connect InfluxDB to it.
+
+### Connect InfluxDB to Grafana
 
 Next, we need to connect InfluxDB to Grafana:
 
 ![Grafana Influx Setup](../img/grafana-influx-setup.png)
 
-Note: use the second InfluxDB port (in my case `20317`) to configure the datasource. See also the [Grafana-InfluxDB setup](http://docs.grafana.org/datasources/influxdb/).
+Note: use the second InfluxDB port (in my case `22372`) to configure the datasource. See also the [Grafana-InfluxDB setup](http://docs.grafana.org/datasources/influxdb/).
 
 Now you can define a dashboard and add a graph:
 
