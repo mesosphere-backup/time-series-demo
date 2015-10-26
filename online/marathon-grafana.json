@@ -1,0 +1,27 @@
+{
+    "acceptedResourceRoles": [
+        "slave_public"
+    ],
+    "constraints": [
+        [
+            "hostname",
+            "UNIQUE"
+        ]
+    ],
+    "container": {
+        "docker": {
+            "image": "grafana/grafana",
+            "network": "BRIDGE",
+            "portMappings": [
+                {
+                    "containerPort": 3000,
+                    "hostPort": 0
+                }
+            ]
+        },
+        "type": "DOCKER"
+    },
+    "cpus": 0.2,
+    "id": "grafana",
+    "mem": 100
+}
