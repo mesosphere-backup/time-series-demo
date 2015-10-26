@@ -117,6 +117,7 @@ Now you can define a dashboard and add a graph:
 
 ![Grafana Graph Setup](../img/grafana-graph-setup.png)
 
+
 ## Spark Data Ingestions
 
 For the online ingestion path (Kakfa->Spark->InfluxDB) we will need to explicitly set timestamps. The `date` column of the dataset contains the date which needs to be converted into an epoch timestamp and can then be inserted like so:
@@ -124,6 +125,3 @@ For the online ingestion path (Kakfa->Spark->InfluxDB) we will need to explicitl
     curl -i -XPOST 'http://$PUBLIC_SLAVE_FQHN:22372/write?db=tsdemo' --data-binary 'crimedata0,case-no=HY467388,type=battery,lat=41.74,lon=-87.55 v=1 1445890350000000000'
 
 Note the additional `1445890350000000000` at the end, after `v=1`.
-
-See the docs on [Kafka-Spark integration]http://spark.apache.org/docs/latest/streaming-kafka-integration.html and [this example](https://github.com/apache/spark/blob/master/examples/src/main/scala/org/apache/spark/examples/streaming/KafkaWordCount.scala).
-
