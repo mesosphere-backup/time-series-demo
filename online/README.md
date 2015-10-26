@@ -1,5 +1,9 @@
 # Online part
 
+In this part we will deploy three apps in Marathon: InfluxDB, Grafana, and Spark:
+
+![Marathon apps deployed](../img/marathon-apps-deployed.png)
+
 ## InfluxDB
 
 ### Install InfluxDB
