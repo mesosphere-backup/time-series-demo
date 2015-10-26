@@ -62,7 +62,7 @@ Of course, if you prefer a CLI-based approach that's also possible:
 
         curl -i -XPOST 'http://$PUBLIC_SLAVE_FQHN:22372/write?db=tsdemo' --data-binary 'crimedata0,case-no=HY467397,type=narcotics,lat=41.89,lon=-87.51 v=1'
 
-Here, you'll have to replace `$PUBLIC_SLAVE_FQHN:22372` with your values. you 
+Here, you'll have to replace `$PUBLIC_SLAVE_FQHN:22372` with your values. 
 
 Then you can query it like so:
 
@@ -125,4 +125,5 @@ For the online ingestion path (Kakfa->Spark->InfluxDB) we will need to explicitl
 
 Note the additional `1445890350000000000` at the end, after `v=1`.
 
+See the docs on [Kafka-Spark integration]http://spark.apache.org/docs/latest/streaming-kafka-integration.html and [this example](https://github.com/apache/spark/blob/master/examples/src/main/scala/org/apache/spark/examples/streaming/KafkaWordCount.scala).
 
