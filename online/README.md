@@ -98,7 +98,7 @@ How can I access Grafana?
       "version": "2015-10-26T19:52:13.784Z"
     }
 
-And again, following the same steps as above we discover that Grafana is running on `http://ec2-52-27-229-31.us-west-2.compute.amazonaws.com:625`. 
+And again, following the same steps as above we discover that Grafana is running on `http://ec2-54-200-134-49.us-west-2.compute.amazonaws.com:625`. 
 You log in with `admin`, `admin` again and you're ready to connect InfluxDB to it.
 
 ### Connect InfluxDB to Grafana
