@@ -10,7 +10,7 @@ Assuming you have sbt installed, run:
 
 ### Push to S3
 
-   aws s3 cp s3://<bucket> target/scala-2.11/crime-data-producer-assembly-0.1.jar
+   `aws s3 cp s3://<bucket> target/scala-2.11/crime-data-producer-assembly-0.1.jar`
 
 ### Update marathon.json
 
