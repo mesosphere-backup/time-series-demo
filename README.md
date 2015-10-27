@@ -24,6 +24,7 @@ We use the  [crime](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-
 - InfluxDB 0.9.4
 - Grafana 2.1.3
 - Spark 1.5
+- [heatmap.js 2.0](http://www.patrick-wied.at/static/heatmapjs/)
 
 ### Deployment
 
