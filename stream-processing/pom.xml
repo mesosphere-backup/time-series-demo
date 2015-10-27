@@ -43,7 +43,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>spark.tsproc.TSProc</mainClass>
+                            <mainClass>mesosphere.tsproc.TSProc</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
