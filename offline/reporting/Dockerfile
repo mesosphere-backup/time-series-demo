@@ -26,7 +26,7 @@ RUN apk --update add openssl-dev pcre-dev zlib-dev wget build-base && \
 RUN ln -sf /dev/stdout /var/log/nginx/access.log
 RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
-COPY content /usr/share/nginx/html
+COPY front-end /usr/share/nginx/html
 
 VOLUME ["/var/log/nginx"]
 
