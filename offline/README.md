@@ -2,14 +2,13 @@
 
 To do (Michael H9):
 
-- Docker image nginx + static content + S3 interface
-- Marathon app spec
+- Docker image nginx S3 interface
 
 In this part we will deploy a Docker-based nginx app in Marathon, acting as the UI for the offline reporting:
 
 ![Offline reporting Web UI](../img/offline-reporting.png)
 
-## Building & install offline reporting Web UI
+## Build & install offline reporting Web UI
 
 The offline reporting Web UI is an automated Docker hub build, see: https://hub.docker.com/r/mhausenblas/tsdemo-offline-reporting-ui/
 
@@ -43,4 +42,10 @@ OK, now, where does the WebUI run and how can I access it?
       "startedAt": "2015-10-27T16:53:20.907Z",
       "version": "2015-10-27T16:53:13.389Z"
     }
+
+### Data ingestion via S3
+
+    $ docker run -it alpine:3.2 /bin/sh
+    $ pip install -U boto
+
 
