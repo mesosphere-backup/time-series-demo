@@ -34,8 +34,10 @@ object TSProc {
       // curl -i -XPOST 'http://$PUBLIC_SLAVE_FQHN:22372/write?db=tsdemo' --data-binary 'crimedata0,case-no=HY467397,type=narcotics,lat=41.89,lon=-87.51 v=1'
       // influxdb.marathon.mesos:22372/write?db=tsdemo --data-binary
 
-      val result = Http("http://influxdb.marathon.mesos:22372/write?db=tsdemo").postData("""crimedata0,case-no=HY467397,type=narcotics,lat=41.89,lon=-87.51 v=1""")
-        .asString
+      rdd.collect().foreach(line => logger.info(line._2))
+
+      //val result = Http("http://influxdb.marathon.mesos:22372/write?db=tsdemo").postData("""crimedata0,case-no=HY467397,type=narcotics,lat=41.89,lon=-87.51 v=1""")
+        //.asString
 
       logger.info(s"In the past 10 seconds I've seen $msgCount messages")
     })
