@@ -1,0 +1,27 @@
+{
+    "acceptedResourceRoles": [
+        "slave_public"
+    ],
+    "constraints": [
+        [
+            "hostname",
+            "UNIQUE"
+        ]
+    ],
+    "container": {
+        "docker": {
+            "image": "mhausenblas/tsdemo-offline-reporting-ui",
+            "network": "BRIDGE",
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 0
+                }
+            ]
+        },
+        "type": "DOCKER"
+    },
+    "cpus": 0.2,
+    "id": "offlinereporting",
+    "mem": 100
+}
