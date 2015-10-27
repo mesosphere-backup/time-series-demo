@@ -10,4 +10,4 @@ Assuming you have sbt installed, run:
 
 ## Running
 
-    bin/run --brokers host1:port1,host2:port2
+    bin/run --brokers localhost:9092 --topic crime --uri file:///Users/tobi/code/time-series-demo/crime-data-producer/crime-data-1000.csv
