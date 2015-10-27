@@ -8,10 +8,12 @@ import org.apache.spark.streaming.kafka._
 
 import org.streum.configrity._
 
+import scalaj.http.Http
+
 object TSProc {
 
   lazy val logger = org.slf4j.LoggerFactory.getLogger(getClass.getName)
-  
+
   def processTimeSeries(brokers: String, consumerGroup: String, topics: String): Unit = {
 
     val conf = new SparkConf().setAppName("Time series DCOS demo")
@@ -21,15 +23,23 @@ object TSProc {
 
     val topicMap = topics.split(",").map((_, numThreads.toInt)).toMap
     val kafkaStream = KafkaUtils.createStream(ssc, brokers, consumerGroup, topicMap)
-    
+
     logger.info(s"Kafka consumer connected to $brokers and listening to topics: $topics")
-    
+
     kafkaStream.foreachRDD(rdd => {
       val msgCount = rdd.count()
-      
+
+      // influxDB http request
+      //
+      // curl -i -XPOST 'http://$PUBLIC_SLAVE_FQHN:22372/write?db=tsdemo' --data-binary 'crimedata0,case-no=HY467397,type=narcotics,lat=41.89,lon=-87.51 v=1'
+      // influxdb.marathon.mesos:22372/write?db=tsdemo --data-binary
+
+      val result = Http("http://influxdb.marathon.mesos:22372/write?db=tsdemo").postData("""crimedata0,case-no=HY467397,type=narcotics,lat=41.89,lon=-87.51 v=1""")
+        .asString
+
       logger.info(s"In the past 10 seconds I've seen $msgCount messages")
     })
-    
+
     // kick off stream processing
     ssc.start()
     ssc.awaitTermination()
@@ -47,7 +57,7 @@ object TSProc {
     val brokers = args(0)
     val consumerGroup = args(1)
     val topics = args(2)
-    
+
     processTimeSeries(brokers, consumerGroup, topics)
     System.exit(0)
   }
