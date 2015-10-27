@@ -14,7 +14,7 @@ Install and set up:
       failover: delay:1m, max-delay:10m
       stickiness: period:10m
 
-## Spark Data Ingestions
+## Using Spark to consume Kafka messages
 
 Install and set up:
 

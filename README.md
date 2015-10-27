@@ -1,24 +1,30 @@
 # Time Series Demo: Crime Buster!
 
-- Implement Spark batch job
-- Implement Chronos job
-- Connect Spark job to sds.s3
-- Documentation (asciinema) + video walkthrough
-- Add to DCOS Demo
+- Implement synth stream source + Kafka publisher (Tobi)
+- Implement Spark-Kafka consumer (ingest into InfluxDB and aggregation) (Michael and Michael)
+- Implement reporting front-end (consume JSON from Spark job and overlay heatmap)
+- Add documentation (asciinema) + video walkthrough (Michael H9)
+- Add to [DCOS Demo](http://demo.datacenter-os.info/) (Michael H9)
 
 ## Overview
 
-Takes the input of a stream data source and process data in two paths: an [online](online/) path using a time series database and an [offline](offline/) part using batch jobs to create reports.
+In this demo we takes the input of a stream data source and process data it in two paths: an [online](online/) path using a time series database and an [offline](offline/) part using micro-batch jobs to create geocoded reports.
 
-Data: [crime](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2) dataset from the City of Chicago.
+
+We use the  [crime](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2) dataset from the City of Chicago.
 
 ## Architecture
 
 ![Architecture](img/architecture.png)
 
-## Tooling
+### Tooling
 
-- Marathon
-- Docker tee + S3 and InfluxDB ingest
-- InfluxDB + Grafana
-- Chronos + Spark
+- Mesosphere DCOS 1.3
+- Marathon 0.11.1
+- InfluxDB 0.9.4
+- Grafana 2.1.3
+- Spark 1.5
+
+### Deployment
+
+![Dcos Dashboard](img/dcos-dashboard.png)

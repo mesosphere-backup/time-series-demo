@@ -118,7 +118,7 @@ Now you can define a dashboard and add a graph:
 ![Grafana Graph Setup](../img/grafana-graph-setup.png)
 
 
-## Spark Data Ingestions
+## Using Spark to ingest data into InfluxDB
 
 For the online ingestion path (Kakfa->Spark->InfluxDB) we will need to explicitly set timestamps. The `date` column of the dataset contains the date which needs to be converted into an epoch timestamp and can then be inserted like so:
 
