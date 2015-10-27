@@ -16,16 +16,26 @@ Install and set up:
 
 ## Using Spark to consume Kafka messages
 
-Install and set up:
+Install [Spark](https://docs.mesosphere.com/services/spark/) in the DCOS:
 
     $ dcos package install spark
 
 See the docs on [Kafka-Spark integration]http://spark.apache.org/docs/latest/streaming-kafka-integration.html and [this example](https://github.com/apache/spark/blob/master/examples/src/main/scala/org/apache/spark/examples/streaming/KafkaWordCount.scala).
 
+
+### Build
+
+    $ mvn -DskipTests clean package
+
+### Run
+
+Preparation: note the Mesos Master IP (in my case `54.186.126.114`) and check out the ZooKeeper IP via Exhibitor (so http://54.186.126.114/exhibitor in my case). I got `10.0.6.90` for the ZK node.
+
 Launch the Spark job manually like so:
 
-    $ dcos spark run --submit-args='-Dspark.mesos.coarse=true --class mesosphere.tsproc.TSProc https://dl.dropboxusercontent.com/u/10436738/tmp/tsdemo-1.0-SNAPSHOT-jar-with-dependencies.jar'
+    $ dcos spark run --submit-args='-Dspark.mesos.coarse=true --class mesosphere.tsproc.TSProc https://dl.dropboxusercontent.com/u/10436738/tmp/tsdemo-1.0-SNAPSHOT-jar-with-dependencies.jar 10.0.6.90 aconsumergoup topic1'
     Run job succeeded. Submission id: driver-20151027031553-0002
+    
     $ dcos spark status driver-20151027031553-0002
     Submission ID: driver-20151027031553-0002
     Driver state: RUNNING
