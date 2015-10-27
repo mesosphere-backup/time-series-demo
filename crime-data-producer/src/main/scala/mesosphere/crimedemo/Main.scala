@@ -7,7 +7,10 @@ object Main {
 
     val publisher = new KafkaPublisher(conf.brokers())
 
-    publisher.publishKafka("test", "test message".getBytes)
+    while(true) {
+      publisher.publishKafka("test", "test message".getBytes)
+      Thread.sleep(1000);
+    }
   }
 
 }
