@@ -3,7 +3,7 @@ MAINTAINER Michael Hausenblas "michael.hausenblas@mesosphere.io"
 ENV REFRESHED_AT 2015-10-27
 ENV NGINX_VERSION nginx-1.9.5
 
-RUN apk --update add openssl-dev pcre-dev zlib-dev wget build-base && \
+RUN apk --update add openssl-dev pcre-dev zlib-dev wget curl build-base && \
     mkdir -p /tmp/src && \
     cd /tmp/src && \
     wget http://nginx.org/download/${NGINX_VERSION}.tar.gz && \

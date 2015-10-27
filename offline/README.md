@@ -46,6 +46,11 @@ OK, now, where does the WebUI run and how can I access it?
 ### Data ingestion via S3
 
     $ docker run -it alpine:3.2 /bin/sh
-    $ pip install -U boto
+    $ curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+    $ unzip awscli-bundle.zip
+    $ ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+    $ TODO: add key/secret to ~/.aws/credentials
+    $ aws s3 cp s3://mesosphere-tsdemo/test.json test.json
+
 
 

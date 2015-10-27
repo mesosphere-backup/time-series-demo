@@ -1,7 +1,7 @@
 # Time Series Demo: Crime Buster!
 
 - Implement synth stream source + Kafka publisher (Tobi)
-- Implement Spark-Kafka consumer: ingest into InfluxDB and aggregation + S3 (Michael G)
+- Implement Spark-Kafka consumer: set up ingest into InfluxDB and aggregation + S3 (Michael G)
 - Implement offline reporting front-end: consume JSON from Spark job and overlay heatmap (Michael H9)
 - Add documentation (asciinema) + video walkthrough (Michael H9)
 - Add to [DCOS Demo](http://demo.datacenter-os.info/) (Michael H9)
