@@ -41,6 +41,7 @@ var crimedataURL =  BASE_URL + "/service/kubernetes/api/v1/proxy/namespaces/defa
 
 // main event loop
 $(document).ready(function() {
+    crimedataURL = "https://s3-us-west-2.amazonaws.com/mesosphere-tsdemo/offline-crime-data.json";
     console.debug('Getting raw data from: ' + crimedataURL);
     $.getJSON(crimedataURL, function(d) {
         console.debug('Data' + d);
