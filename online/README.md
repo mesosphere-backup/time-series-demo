@@ -45,7 +45,7 @@ Note this address (`ip-10-0-6-140.us-west-2.compute.internal`) and the first por
 Next step is to set up InfluxDB itself. You change the port from `8086` to the second port you gleaned above (in my case: `22372`); this is where InfluxDB's API is. Then, log in with `admin`, `admin` and create a database called `tsdemo` as so:
 
     CREATE DATABASE tsdemo
-    ALTER RETENTION POLICY default ON tsdemo DURATION 1d
+    ALTER RETENTION POLICY default ON tsdemo DURATION 1h
 
 Now use the `Write Data` link (in the WebUI) to create some data:
 
