@@ -6,7 +6,7 @@
 
 Assuming you have sbt installed, run:
 
-    bin/build
+   bin/build
 
 ## Push to S3
 

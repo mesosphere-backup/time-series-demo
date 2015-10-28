@@ -8,7 +8,8 @@ import org.apache.spark.streaming.kafka._
 
 import org.streum.configrity._
 
-import scalaj.http.Http
+import dispatch._
+import Defaults._
 
 object TSProc {
 
@@ -29,15 +30,22 @@ object TSProc {
     kafkaStream.foreachRDD(rdd => {
       val msgCount = rdd.count()
 
-      // influxDB http request
-      //
-      // curl -i -XPOST 'http://$PUBLIC_SLAVE_FQHN:22372/write?db=tsdemo' --data-binary 'crimedata0,case-no=HY467397,type=narcotics,lat=41.89,lon=-87.51 v=1'
-      // influxdb.marathon.mesos:22372/write?db=tsdemo --data-binary
+      logger.info("before request")
 
-      rdd.collect().foreach(line => logger.info(line._2))
+      val input = """10278872,HY467389,10/18/2015 11:50:00 PM,060XX S VERNON AVE,0560,ASSAULT,SIMPLE,RESIDENCE PORCH/HALLWAY,false,false,0313,003,20,42,08A,1180307,1865162,2015,10/25/2015 03:55:25 PM,41.785268355,-87.614452924,asdf"""
 
-      //val result = Http("http://influxdb.marathon.mesos:22372/write?db=tsdemo").postData("""crimedata0,case-no=HY467397,type=narcotics,lat=41.89,lon=-87.51 v=1""")
-        //.asString
+      val arr = input.split(",")
+      val caseNumber = arr(1)
+      val crimeType = arr(5)
+      val lat = arr(arr.length-3)
+      val lon = arr(arr.length-2)
+      val data = s"crimedata0,case-no=${caseNumber},type=${crimeType},lat=${lat},lon=${lon} v=1"
+      logger.info(s"data: ${data}")
+
+      val req = url("http://influxdb.marathon.mesos:22372/write?db=tsdemo").POST << data
+      val future = Http(req OK as.String)
+      val resp = future()
+      logger.info(s"response: ${resp}")
 
       logger.info(s"In the past 10 seconds I've seen $msgCount messages")
     })
@@ -49,10 +57,10 @@ object TSProc {
 
   def main(args: Array[String]) {
      if (args.length < 3) {
-        System.err.println("Usage:   \n  mesosphere.tsproc.TSProc $BROKER_LIST $CONSUMER_GROUP $TOPIC_LIST ")
-        System.err.println("$BROKER_LIST ... 10.0.6.90,10.0.6.91 ")
-        System.err.println("$BROKER_LIST ... aconsumergoup ")
-        System.err.println("$BROKER_LIST ... topic1,topic2,topic3")
+        System.err.println("Usage:   \n  mesosphere.tsproc.TSProc $ZK_QUORUM $CONSUMER_GROUP $TOPIC_LIST ")
+        System.err.println("ZK_QUORUM       ... 10.0.6.90,10.0.6.91 ")
+        System.err.println("$CONSUMER_GROUP ... aconsumergoup ")
+        System.err.println("$TOPIC_LIST     ... topic1,topic2,topic3")
         System.exit(1)
     }
     // setting up configuration:
