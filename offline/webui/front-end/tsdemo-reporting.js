@@ -37,7 +37,7 @@ var testData = {
 };
 
 var BASE_URL = "http://" + window.location.host;
-var crimedataURL =  BASE_URL + "data/offline-crime-data.json";
+var crimedataURL =  BASE_URL + "/data/offline-crime-data.json";
 
 // main event loop
 $(document).ready(function() {
