@@ -7,8 +7,6 @@ We have two Docker containers running in the [pod](k8s-offlinereporting.yaml):
 
 The offline reporting Web UI and the S3 fetcher have a shared data volume at `/tmp/tsdemo`.
 
-![Offline reporting Web UI](../img/offline-reporting.png)
-
 ## Install offline reporting
 
 The offline part is deployed via [Kubernetes](https://docs.mesosphere.com/services/kubernetes/), so let's install that:
@@ -51,11 +49,22 @@ Finally we can launch our offline reporting [replication controller](http://kube
     CONTROLLER            CONTAINER(S)   IMAGE(S)                                  SELECTOR                REPLICAS
     offlinereporting-rc   s3-fetcher     mhausenblas/tsdemo-s3-fetcher             name=offlinereporting   1
                           webui          mhausenblas/tsdemo-offline-reporting-ui
+    $ kubectl create -f k8s-offlinereporting-service.yaml
+    $ kubectl get endpoints
+    NAME                       ENDPOINTS
+    k8sm-scheduler             10.0.3.201:25504
+    kubernetes                 10.0.3.201:25502
+    offlinereporting-service   <none>
 
 ![K8S deployment](../img/k8s-deployment.png)
 
 Once you're done, you can remove the RC with `kubectl delete rc offlinereporting-rc`.
 
+In order to access the Web UI all you have to do is visit the following URL (with `$DCOS_DASHBOARD_FQHN` being your DCOS cluster dashboard URL):
+
+    http://$DCOS_DASHBOARD_FQHN/service/kubernetes/api/v1/proxy/namespaces/default/services/offlinereporting-service/
+
+![Offline reporting Web UI](../img/offline-reporting.png)
 
 ## Build offline reporting Web UI
 

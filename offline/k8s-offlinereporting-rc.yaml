@@ -38,8 +38,6 @@ spec:
               readOnly: true
           ports:
             - containerPort: 80
-              name: http
-              protocol: TCP
           resources:
             limits:
               cpu: "500m"

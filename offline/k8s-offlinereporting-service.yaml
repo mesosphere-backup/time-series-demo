@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: offlinereporting-service
+spec:
+  selector:
+    name: offlinereporting
+  ports:
+    - port: 80
+      targetPort: 80
