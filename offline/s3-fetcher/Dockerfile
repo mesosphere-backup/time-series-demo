@@ -7,4 +7,4 @@ RUN apk --update add python curl && \
     unzip awscli-bundle.zip && \
     ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 
-CMD AWS_ACCESS_KEY_ID=$(cat /tmp/aws/aws-access-key-id) AWS_SECRET_ACCESS_KEY=$(cat /tmp/aws/aws-secret-access-key) while true; do aws s3 cp s3://mesosphere-tsdemo/offline-crime-data.json /tmp/tsdemo/offline-crime-data.json ; sleep 20 ; done
+CMD while true; do AWS_ACCESS_KEY_ID=$(cat /tmp/aws/aws-access-key-id) AWS_SECRET_ACCESS_KEY=$(cat /tmp/aws/aws-secret-access-key) aws s3 cp s3://mesosphere-tsdemo/offline-crime-data.json /tmp/tsdemo/offline-crime-data.json ; sleep 20 ; done
