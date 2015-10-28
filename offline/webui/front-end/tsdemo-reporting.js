@@ -42,7 +42,7 @@ var crimedataURL = "data/offline-crime-data.json";
 $(document).ready(function() {
     console.debug('Getting raw data from: ' + crimedataURL);
     $.getJSON(crimedataURL, function(d) {
-        console.debug(d);
+        console.debug('Data' + d);
         heatmap.setData(d);
     });
 });

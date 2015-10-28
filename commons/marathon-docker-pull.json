@@ -1,0 +1,12 @@
+{
+    "constraints": [
+        [
+            "hostname",
+            "UNIQUE"
+        ]
+    ],
+    "cmd": "docker pull mhausenblas/tsdemo-offline-reporting-ui ; sleep 60",
+    "cpus": 0.2,
+    "id": "dockerpull",
+    "instances": 6
+}
