@@ -50,6 +50,11 @@ Finally we can launch our offline reporting [replication controller](http://kube
     offlinereporting-rc   s3-fetcher     mhausenblas/tsdemo-s3-fetcher             name=offlinereporting   1
                           webui          mhausenblas/tsdemo-offline-reporting-ui
     $ kubectl create -f k8s-offlinereporting-service.yaml
+    $ kubectl get services
+    NAME                       LABELS                                    SELECTOR                IP(S)          PORT(S)
+    k8sm-scheduler             component=scheduler,provider=k8sm         <none>                  10.10.10.9     10251/TCP
+    kubernetes                 component=apiserver,provider=kubernetes   <none>                  10.10.10.1     443/TCP
+    offlinereporting-service   <none>                                    name=offlinereporting   10.10.10.251   80/TCP
     $ kubectl get endpoints
     NAME                       ENDPOINTS
     k8sm-scheduler             10.0.3.201:25504
@@ -58,7 +63,7 @@ Finally we can launch our offline reporting [replication controller](http://kube
 
 ![K8S deployment](../img/k8s-deployment.png)
 
-Once you're done, you can remove the RC with `kubectl delete rc offlinereporting-rc`.
+Once you're done, you can remove the RC and service with `kubectl delete rc offlinereporting-rc && kubectl delete service offlinereporting-service`.
 
 In order to access the Web UI all you have to do is visit the following URL (with `$DCOS_DASHBOARD_FQHN` being your DCOS cluster dashboard URL):
 
