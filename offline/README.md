@@ -1,18 +1,19 @@
 # Offline part
 
-To do (Michael H9):
-
-- Docker image nginx S3 interface
-
-In this part we will deploy a Docker-based nginx app in Marathon, acting as the UI for the offline reporting:
-
-![Offline reporting Web UI](../img/offline-reporting.png)
-
 The offline part is deployed via [Kubernetes](https://docs.mesosphere.com/services/kubernetes/), so let's install that:
 
     $ dcos config prepend package.sources https://github.com/mesosphere/multiverse/archive/version-1.x.zip
     $ dcos package update --validate
     $ dcos package install kubernetes
+
+We have two Docker containers running in the [pod](k8s-offlinereporting.yaml):
+
+- The [Web UI](https://hub.docker.com/r/mhausenblas/tsdemo-offline-reporting-ui/) 
+- The [S3 fetcher](https://hub.docker.com/r/mhausenblas/tsdemo-s3-fetcher/)
+
+The offline reporting Web UI and the S3 fetcher have a shared data volume at `/tmp/tsdemo`.
+
+![Offline reporting Web UI](../img/offline-reporting.png)
 
 ## Build & install offline reporting Web UI
 
