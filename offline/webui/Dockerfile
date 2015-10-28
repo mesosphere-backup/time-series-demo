@@ -36,4 +36,4 @@ EXPOSE 80
 
 USER root
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD chmod 755 /etc/nginx/html/data ; nginx -g daemon off
