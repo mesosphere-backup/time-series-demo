@@ -26,7 +26,7 @@ spec:
     - image: mhausenblas/tsdemo-offline-reporting-ui
       name: webui
       volumeMounts:
-        - mountPath: "/tmp/tsdemo"
+        - mountPath: "/etc/nginx/html/data"
           name: "tsdemo-data"
           readOnly: true
       ports:
