@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    name: offlinereporting
+  name: offlinereporting
+spec:
+  volumes:
+    - name: "tsdemo-data"
+      emptyDir: {}
+    - name: "tsdemo-cred"
+      secret:
+        secretName: awssecret
+  imagePullPolicy: Always
+  containers:
+    - image: mhausenblas/tsdemo-s3-fetcher
+      name: s3-fetcher
+      volumeMounts:
+        - mountPath: "/tmp/tsdemo"
+          name: "tsdemo-data"
+        - mountPath: "/tmp/aws"
+          name: "tsdemo-cred"
+      resources:
+        limits:
+          cpu: "800m"
+          memory: "200Mi"
+    - image: mhausenblas/tsdemo-offline-reporting-ui
+      name: webui
+      volumeMounts:
+        - mountPath: "/etc/nginx/html/data"
+          name: "tsdemo-data"
+          readOnly: true
+      ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+      resources:
+        limits:
+          cpu: "500m"
+          memory: "100Mi"

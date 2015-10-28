@@ -1,9 +1,9 @@
 FROM alpine:3.2
 MAINTAINER Michael Hausenblas "michael.hausenblas@mesosphere.io"
-ENV REFRESHED_AT 2015-10-27
+ENV REFRESHED_AT 2015-10-28
 ENV NGINX_VERSION nginx-1.9.5
 
-RUN apk --update add openssl-dev pcre-dev zlib-dev wget build-base && \
+RUN apk --update add openssl-dev pcre-dev zlib-dev wget curl build-base && \
     mkdir -p /tmp/src && \
     cd /tmp/src && \
     wget http://nginx.org/download/${NGINX_VERSION}.tar.gz && \
@@ -32,6 +32,6 @@ VOLUME ["/var/log/nginx"]
 
 WORKDIR /etc/nginx
 
-EXPOSE 80 443
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]

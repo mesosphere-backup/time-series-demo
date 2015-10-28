@@ -1,7 +1,7 @@
 # Time Series Demo: Crime Buster!
 
 - Implement synth stream source + Kafka publisher (Tobi)
-- Implement Spark-Kafka consumer: ingest into InfluxDB and aggregation + S3 (Michael G)
+- Implement Spark-Kafka consumer: set up ingest into InfluxDB and aggregation + S3 (Michael G)
 - Implement offline reporting front-end: consume JSON from Spark job and overlay heatmap (Michael H9)
 - Add documentation (asciinema) + video walkthrough (Michael H9)
 - Add to [DCOS Demo](http://demo.datacenter-os.info/) (Michael H9)
@@ -20,12 +20,14 @@ We use the  [crime](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-
 ### Tooling
 
 - Mesosphere DCOS 1.3
-- Marathon 0.11.1
-- InfluxDB 0.9.4
-- Grafana 2.1.3
-- Spark 1.5
+ - Marathon 0.11.1
+ - InfluxDB 0.9.4
+ - Grafana 2.1.3
+ - Spark 1.5
 - [heatmap.js 2.0](http://www.patrick-wied.at/static/heatmapjs/)
+- AWS S3 and the [CLI](http://aws.amazon.com/documentation/cli/)
+- [Docker Hub](https://hub.docker.com/r/mhausenblas/tsdemo-offline-reporting-ui/)
 
 ### Deployment
 
-![Dcos Dashboard](img/dcos-dashboard.png)
+![DCOS dashboard](img/dcos-dashboard.png)

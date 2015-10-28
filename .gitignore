@@ -1,6 +1,8 @@
 *.class
 *.log
 
+aws-secret.yaml
+
 # sbt specific
 .cache
 .history
