@@ -34,4 +34,6 @@ WORKDIR /etc/nginx
 
 EXPOSE 80
 
+USER root
+
 CMD ["nginx", "-g", "daemon off;"]
