@@ -35,7 +35,7 @@ spec:
           volumeMounts:
             - mountPath: "/etc/nginx/html/data"
               name: "tsdemo-data"
-              readOnly: true
+              readOnly: false
           ports:
             - containerPort: 80
           resources:
