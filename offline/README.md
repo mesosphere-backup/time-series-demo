@@ -87,6 +87,6 @@ Manually, these are the steps:
     $ ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
     $ export AWS_ACCESS_KEY_ID=<access_key>
     $ export AWS_SECRET_ACCESS_KEY=<secret_key>
-    $ aws s3 cp s3://mesosphere-tsdemo/test.json test.json
+    $ aws s3 cp s3://mesosphere-tsdemo/offline-crime-data.json offline-crime-data.json
 
 

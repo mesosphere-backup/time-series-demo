@@ -36,4 +36,14 @@ var testData = {
   ]
 };
 
-heatmap.setData(testData);
+var crimedataURL = "data/offline-crime-data.json";
+
+// main event loop
+$(document).ready(function() {
+    console.debug('Getting raw data from: ' + crimedataURL);
+    $.getJSON(crimedataURL, function(d) {
+        console.debug(d);
+        heatmap.setData(d);
+    });
+});
+
