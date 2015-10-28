@@ -8,17 +8,17 @@ spec:
   volumes:
     - name: "tsdemo-data"
       emptyDir: {}
+    - name: "tsdemo-cred"
+      secret:
+        secretName: awssecret
   containers:
     - image: mhausenblas/tsdemo-s3-fetcher
       name: s3-fetcher
-      env:
-         - name: AWS_ACCESS_KEY_ID
-           value:
-         - name: AWS_SECRET_ACCESS_KEY
-           value:
       volumeMounts:
         - mountPath: "/tmp/tsdemo"
           name: "tsdemo-data"
+        - mountPath: "/tmp/aws"
+          name: "tsdemo-cred"
       resources:
         limits:
           cpu: "800m"

@@ -29,11 +29,29 @@ and check if everything is fine:
     KubeDNS is running at http://54.186.126.114/api/v1/proxy/namespaces/kube-system/services/kube-dns
     KubeUI is running at http://54.186.126.114/api/v1/proxy/namespaces/kube-system/services/kube-ui
     
+In order to work properly you'll need to supply the S3 fetcher with your AWS credentials, so create a file called `aws-secret.yaml` with this content:
+
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: awssecret
+    type: Opaque
+    data:
+      AWS-ACCESS-KEY-ID: $YOUR_AWS_KEY
+      AWS-SECRET-ACCESS-KEY: $YOUR_AWS_SECRET
+
+Make sure you replace `$YOUR_AWS_KEY` and `$YOUR_AWS_SECRET` with the values you glean from the AWS IAM, see also this [docs](http://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html).
+
+
 So, it's time to deploy the pod:
 
     $ kubectl create -f k8s-offlinereporting.yaml
+    $ kubectl get pods
 
 ![K8S deployment](../img/k8s-deployment.png)
+
+Once you're done, you can remove the pod with `kubectl delete pod offlinereporting`.
+
 
 ## Build offline reporting Web UI
 
