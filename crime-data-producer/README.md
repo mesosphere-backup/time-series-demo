@@ -6,7 +6,7 @@
 
 Assuming you have sbt installed, run:
 
-    bin/build
+   bin/build
 
 ### Push to S3
 
@@ -20,7 +20,7 @@ Add the public jar S3 object URL to the `"uris"` field.
 
 Change the `"cmd"` field:
 
-       $(pwd)/jre*/bin/java -jar crime-data-producer-assembly-0.1.jar --brokers <broker-host>:<broker-ip>,...
+       $(pwd)/jre*/bin/java -jar crime-data-producer-assembly-0.1.jar --brokers <broker-host>:<broker-ip>,... --topic crime --uri file:///Users/tobi/code/time-series-demo/crime-data-producer/crime-data-1000.csv
 
 ## Running
 
