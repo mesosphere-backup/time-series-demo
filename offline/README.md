@@ -54,7 +54,7 @@ Finally we can launch our offline reporting [replication controller](http://kube
     NAME                       ENDPOINTS
     k8sm-scheduler             10.0.3.201:25504
     kubernetes                 10.0.3.201:25502
-    offlinereporting-service   <none>
+    offlinereporting-service   10.0.3.200:1028
 
 ![K8S deployment](../img/k8s-deployment.png)
 
