@@ -40,17 +40,21 @@ In order to work properly you'll need to supply the S3 fetcher with your AWS cre
       AWS-ACCESS-KEY-ID: $YOUR_AWS_KEY
       AWS-SECRET-ACCESS-KEY: $YOUR_AWS_SECRET
 
-Make sure you replace `$YOUR_AWS_KEY` and `$YOUR_AWS_SECRET` with the values you glean from the AWS IAM, see also this [docs](http://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html).
+Make sure you replace `$YOUR_AWS_KEY` and `$YOUR_AWS_SECRET` with the `base64` encoded values you glean from the AWS IAM, see also this [docs](http://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html). For example: `echo -n 123456789 | base64`.
 
 
-So, it's time to deploy the pod:
+Finally we can launch our offline reporting [replication controller](http://kubernetes.io/v1.0/docs/user-guide/walkthrough/k8s201.html#replication-controllers):
 
-    $ kubectl create -f k8s-offlinereporting.yaml
-    $ kubectl get pods
+    $ kubectl create -f aws-secret.yaml
+    $ kubectl create -f k8s-offlinereporting-rc.yaml
+    $ kubectl get rc
+    CONTROLLER            CONTAINER(S)   IMAGE(S)                                  SELECTOR                REPLICAS
+    offlinereporting-rc   s3-fetcher     mhausenblas/tsdemo-s3-fetcher             name=offlinereporting   1
+                          webui          mhausenblas/tsdemo-offline-reporting-ui
 
 ![K8S deployment](../img/k8s-deployment.png)
 
-Once you're done, you can remove the pod with `kubectl delete pod offlinereporting`.
+Once you're done, you can remove the RC with `kubectl delete rc offlinereporting-rc`.
 
 
 ## Build offline reporting Web UI

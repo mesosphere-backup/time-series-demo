@@ -11,6 +11,7 @@ spec:
     - name: "tsdemo-cred"
       secret:
         secretName: awssecret
+  imagePullPolicy: Always
   containers:
     - image: mhausenblas/tsdemo-s3-fetcher
       name: s3-fetcher
