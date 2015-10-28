@@ -1,6 +1,10 @@
 package mesosphere.crimedemo
 
+import java.io.BufferedInputStream
 import java.net.URI
+import java.util.zip.GZIPInputStream
+
+import org.tukaani.xz.XZInputStream
 
 import scala.io.Source
 
@@ -11,9 +15,21 @@ object Main {
   def main(args: Array[String]): Unit = {
     val conf = new Conf(args)
     val publisher = new KafkaPublisher(conf.brokers())
-    val source = Source.fromURI(new URI(conf.uri()))
     val topic = conf.topic()
     val sleep = 1000L / conf.eventsPerSecond()
+    val uri = new URI(conf.uri())
+    val inputStream = new BufferedInputStream(uri.toURL.openStream())
+
+    val wrappedStream = if (conf.uri().endsWith(".gz")) {
+      new GZIPInputStream(inputStream)
+    }
+    else if (conf.uri().endsWith(".xz")) {
+      new XZInputStream(inputStream)
+    }
+    else {
+      inputStream
+    }
+    val source = Source.fromInputStream(wrappedStream)
 
     var done = 0
 
