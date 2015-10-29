@@ -1,4 +1,4 @@
-# Time Series Demo: Crime Buster!
+# Time Series DCOS Demo: Crime Buster!
 
 ## Overview
 
