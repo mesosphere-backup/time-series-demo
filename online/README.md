@@ -120,7 +120,7 @@ Now you can define a dashboard and add a graph:
 
 ## Using Spark to ingest data into InfluxDB
 
-   $ cd stream-processing
-   $ mvn -DskipTests clean package
-   $ aws s3 cp target/tsdemo-1.0-SNAPSHOT-jar-with-dependencies.jar s3://<bucket>/
-   $ dcos spark run --submit-args='-Dspark.mesos.coarse=true --class mesosphere.tsproc.TSProc https://s3-us-west-2.amazonaws.com/<bucket>/tsdemo-1.0-SNAPSHOT-jar-with-dependencies.jar leader.mesos aconsumergoup crime <access-key> <secret-key>'
+    $ cd stream-processing
+    $ mvn -DskipTests clean package
+    $ aws s3 cp target/tsdemo-1.0-SNAPSHOT-jar-with-dependencies.jar s3://<bucket>/
+    $ dcos spark run --submit-args='-Dspark.mesos.coarse=true --class mesosphere.tsproc.TSProc https://s3-us-west-2.amazonaws.com/<bucket>/tsdemo-1.0-SNAPSHOT-jar-with-dependencies.jar leader.mesos aconsumergoup crime <access-key> <secret-key>'
