@@ -47,12 +47,13 @@ object TSProc {
 
   lazy val logger = org.slf4j.LoggerFactory.getLogger(getClass.getName)
 
-  def processTimeSeries(brokers: String, consumerGroup: String, topics: String): Unit = {
+  def processTimeSeries(brokers: String,
+    consumerGroup: String,
+    topics: String,
+    awsAccessKey: String,
+    awsSecretKey: String): Unit = {
 
-    val AWS_ACCESS_KEY = "AKIAJIJTJAOY2ANXDUZA"
-    val AWS_SECRET_KEY = "eWxT1fl2YwSgQKHMgqcJpnpgyHKP3iHljWvY+VK+"
-
-    val yourAWSCredentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY)
+    val yourAWSCredentials = new BasicAWSCredentials(awsAccessKey, awsSecretKey)
     val amazonS3Client = new AmazonS3Client(yourAWSCredentials)
 
     val conf = new SparkConf().setAppName("Time series DCOS demo")
@@ -94,7 +95,7 @@ object TSProc {
       val datas_list = datas.toList
 
       val msg = datas_list.mkString("\n")
-      logger.info(s"msg: ${msg}")
+      //logger.info(s"msg: ${msg}")
 
       val req = url("http://influxdb.marathon.mesos:7325/write?db=tsdemo").POST << msg
       val future = Http(req OK as.String)
@@ -112,7 +113,7 @@ object TSProc {
         sb ++= s"""{"lat": ${lat}, "lng": ${lng}, "count": 1},"""
         sb ++= "\n"
       }
-      if (offline_json_list.length() > 0) {
+      if (offline_json_list.length > 0) {
         val lat = offline_json_list(offline_json_list.length-1)("lat")
         val lng = offline_json_list(offline_json_list.length-1)("lng")
         sb ++= s"""{"lat": ${lat}, "lng": ${lng}, "count": 1}"""
@@ -126,11 +127,14 @@ object TSProc {
       pw.write(oj_out)
       pw.close
 
-      val file = new File("/tmp/offline-crime-data.json")
+      //val file = new File()
 
       logger.info("Uploading crime data...")
 
-      val request = new PutObjectRequest("mesosphere-tsdemo", "offline-crime-data.json", file)
+      val inputStream = new FileInputStream("/tmp/offline-crime-data.json")
+      val metadata = new ObjectMetadata()
+      metadata.setContentType("application/json")
+      val request = new PutObjectRequest("mesosphere-tsdemo", "offline-crime-data.json", inputStream, metadata)
       request.setCannedAcl(CannedAccessControlList.PublicRead);
       amazonS3Client.putObject(request)
 
@@ -144,18 +148,22 @@ object TSProc {
 
   def main(args: Array[String]) {
      if (args.length < 3) {
-        System.err.println("Usage:   \n  mesosphere.tsproc.TSProc $ZK_QUORUM $CONSUMER_GROUP $TOPIC_LIST ")
-        System.err.println("ZK_QUORUM       ... 10.0.6.90,10.0.6.91 ")
-        System.err.println("$CONSUMER_GROUP ... aconsumergoup ")
-        System.err.println("$TOPIC_LIST     ... topic1,topic2,topic3")
+        System.err.println("Usage:   \n  mesosphere.tsproc.TSProc $ZK_QUORUM $CONSUMER_GROUP $TOPIC_LIST $AWS_ACCESS_KEY $AWS_SECRET_KEY")
+        System.err.println("ZK_QUORUM         ... 10.0.6.90,10.0.6.91 ")
+        System.err.println("$CONSUMER_GROUP   ... aconsumergoup ")
+        System.err.println("$TOPIC_LIST       ... topic1,topic2,topic3")
+        System.err.println("$AWS_ACCESS_KEY   ... ***")
+        System.err.println("$AWS_SECRET_KEY   ... ***")
         System.exit(1)
     }
     // setting up configuration:
     val brokers = args(0)
     val consumerGroup = args(1)
     val topics = args(2)
+    val awsAccessKey = args(3)
+    val awsSecretKey = args(4)
 
-    processTimeSeries(brokers, consumerGroup, topics)
+    processTimeSeries(brokers, consumerGroup, topics, awsAccessKey, awsSecretKey)
     System.exit(0)
   }
 }

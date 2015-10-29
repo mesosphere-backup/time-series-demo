@@ -18,7 +18,7 @@ OK, now, where does InfluxDB run? How can I access the Web UI and HTTP API?
     APP        HEALTHY          STARTED                             HOST                    ID
     /grafana     True   2015-10-26T19:52:37.733Z  ip-10-0-6-140.us-west-2.compute.internal  grafana.0d96dc8f-7c1b-11e5-863e-06ff3f135d7f
     /influxdb    True   2015-10-26T19:46:54.532Z  ip-10-0-6-140.us-west-2.compute.internal  influxdb.40a1fd4e-7c1a-11e5-863e-06ff3f135d7f
-    
+
     $ dcos marathon task show influxdb.40a1fd4e-7c1a-11e5-863e-06ff3f135d7f
     {
       "appId": "/influxdb",
@@ -62,7 +62,7 @@ Of course, if you prefer a CLI-based approach that's also possible:
 
         curl -i -XPOST 'http://$PUBLIC_SLAVE_FQHN:22372/write?db=tsdemo' --data-binary 'crimedata0,case-no=HY467397,type=narcotics,lat=41.89,lon=-87.51 v=1'
 
-Here, you'll have to replace `$PUBLIC_SLAVE_FQHN:22372` with your values. 
+Here, you'll have to replace `$PUBLIC_SLAVE_FQHN:22372` with your values.
 
 Then you can query it like so:
 
@@ -84,7 +84,7 @@ How can I access Grafana?
     APP        HEALTHY          STARTED                             HOST                    ID
     /grafana     True   2015-10-26T19:52:37.733Z  ip-10-0-6-140.us-west-2.compute.internal  grafana.0d96dc8f-7c1b-11e5-863e-06ff3f135d7f
     /influxdb    True   2015-10-26T19:46:54.532Z  ip-10-0-6-140.us-west-2.compute.internal  influxdb.40a1fd4e-7c1a-11e5-863e-06ff3f135d7f
-    
+
     $ dcos marathon task show grafana.0d96dc8f-7c1b-11e5-863e-06ff3f135d7f
     {
       "appId": "/grafana",
@@ -102,7 +102,7 @@ How can I access Grafana?
       "version": "2015-10-26T19:52:13.784Z"
     }
 
-And again, following the same steps as above we discover that Grafana is running on `http://ec2-54-200-134-49.us-west-2.compute.amazonaws.com:625`. 
+And again, following the same steps as above we discover that Grafana is running on `http://ec2-54-200-134-49.us-west-2.compute.amazonaws.com:625`.
 You log in with `admin`, `admin` again and you're ready to connect InfluxDB to it.
 
 ### Connect InfluxDB to Grafana
@@ -120,8 +120,7 @@ Now you can define a dashboard and add a graph:
 
 ## Using Spark to ingest data into InfluxDB
 
-For the online ingestion path (Kakfa->Spark->InfluxDB) we will need to explicitly set timestamps. The `date` column of the dataset contains the date which needs to be converted into an epoch timestamp and can then be inserted like so:
-
-    curl -i -XPOST 'http://$PUBLIC_SLAVE_FQHN:22372/write?db=tsdemo' --data-binary 'crimedata0,case-no=HY467388,type=battery,lat=41.74,lon=-87.55 v=1 1445890350000000000'
-
-Note the additional `1445890350000000000` at the end, after `v=1`.
+   $ cd stream-processing
+   $ mvn -DskipTests clean package
+   $ aws s3 cp target/tsdemo-1.0-SNAPSHOT-jar-with-dependencies.jar s3://<bucket>/
+   $ dcos spark run --submit-args='-Dspark.mesos.coarse=true --class mesosphere.tsproc.TSProc https://s3-us-west-2.amazonaws.com/<bucket>/tsdemo-1.0-SNAPSHOT-jar-with-dependencies.jar leader.mesos aconsumergoup crime <access-key> <secret-key>'
