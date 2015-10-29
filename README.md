@@ -9,7 +9,7 @@ In this demo we take the [crime](https://data.cityofchicago.org/Public-Safety/Cr
 
 ## Architecture
 
-![Architecture](img/architecture.png)
+![Architecture](img/architecture-overview.png)
 
 ### Dependencies
 
