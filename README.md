@@ -31,3 +31,4 @@ To do:
 - Add documentation (asciinema) for overall setup (Michael H9)
 - Create video walkthrough (Michael H9)
 - Add to [DCOS Demo](http://demo.datacenter-os.info/) (Michael H9)
+- Add real timestamps to influxDB data
