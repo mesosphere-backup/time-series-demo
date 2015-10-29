@@ -2,7 +2,7 @@
 
 ## Overview
 
-In this demo we take the [crime](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2) dataset from the City of Chicago, turn it into a streaming data source and process data it in two paths:
+In this demo we take the [crime](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2) dataset from the City of Chicago, turn it into a streaming data source and process the data in two paths:
 
 - an [online](online/) path, using a time series database (InfluxDB) and visualize the crime types in Grafana.
 - an [offline](offline/) part, using Spark jobs to create an overlay heat map of aggregated crimes on Google Maps.
@@ -28,5 +28,6 @@ In this demo we take the [crime](https://data.cityofchicago.org/Public-Safety/Cr
 
 To do:
 
-- Add documentation (asciinema) + video walkthrough (Michael H9)
+- Add documentation (asciinema) for overall setup (Michael H9)
+- Create video walkthrough (Michael H9)
 - Add to [DCOS Demo](http://demo.datacenter-os.info/) (Michael H9)
