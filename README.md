@@ -15,12 +15,15 @@ In this demo we take the [crime](https://data.cityofchicago.org/Public-Safety/Cr
 
 - Mesosphere [DCOS 1.3](https://mesosphere.com/product/) {ALL}
  - [Marathon 0.11.1](https://mesosphere.github.io/marathon/) {ALL}
+ - [Spark 1.5](https://spark.apache.org/) {ALL}
+ - [Kubernetes 1.0.6](https://github.com/kubernetes/kubernetes/releases/tag/v1.0.6) {OFFLINE}
  - [InfluxDB 0.9.4](https://influxdb.com/) {ONLINE}
  - [Grafana 2.1.3](http://grafana.org/) {ONLINE}
- - [Spark 1.5](https://spark.apache.org/) {ALL}
 - [heatmap.js 2.0](http://www.patrick-wied.at/static/heatmapjs/) {OFFLINE}
 - AWS S3 and the [CLI](http://aws.amazon.com/documentation/cli/) {OFFLINE}
-- [Docker Hub](https://hub.docker.com/r/mhausenblas/tsdemo-offline-reporting-ui/) {OFFLINE}
+- Docker Hub
+ - [Offline reporting Web UI](https://hub.docker.com/r/mhausenblas/tsdemo-offline-reporting-ui/) {OFFLINE}
+ - [S3 fetcher](https://hub.docker.com/r/mhausenblas/tsdemo-s3-fetcher/) {OFFLINE}
 
 ### Deployment
 
@@ -30,5 +33,4 @@ To do:
 
 - Add documentation (asciinema) for overall setup (Michael H9)
 - Create video walkthrough (Michael H9)
-- Add to [DCOS Demo](http://demo.datacenter-os.info/) (Michael H9)
-- Add real timestamps to influxDB data
+- Add real timestamps to InfluxDB data (Michael G)
