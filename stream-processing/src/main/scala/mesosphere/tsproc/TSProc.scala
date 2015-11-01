@@ -50,18 +50,20 @@ object TSProc {
   def processTimeSeries(brokers: String,
     consumerGroup: String,
     topics: String,
+    influxDBPort : String,
     awsAccessKey: String,
     awsSecretKey: String): Unit = {
 
     val yourAWSCredentials = new BasicAWSCredentials(awsAccessKey, awsSecretKey)
     val amazonS3Client = new AmazonS3Client(yourAWSCredentials)
 
-    val conf = new SparkConf().setAppName("Time series DCOS demo")
+    val conf = new SparkConf().setAppName("Crime time series data processing")
     // setting up the Spark Streaming context with a 10s window
     val ssc = new StreamingContext(conf, Seconds(10))
     val numThreads = 1
 
     val topicMap = topics.split(",").map((_, numThreads.toInt)).toMap
+    val influxDBEndpoint = s"""http://influxdb.marathon.mesos:${influxDBPort}/write?db=tsdemo"""
     val kafkaStream = KafkaUtils.createStream(ssc, brokers, consumerGroup, topicMap)
 
     logger.info(s"Kafka consumer connected to $brokers and listening to topics: $topics")
@@ -97,7 +99,7 @@ object TSProc {
       val msg = datas_list.mkString("\n")
       //logger.info(s"msg: ${msg}")
 
-      val req = url("http://influxdb.marathon.mesos:7325/write?db=tsdemo").POST << msg
+      val req = url(influxDBEndpoint).POST << msg
       val future = Http(req OK as.String)
       val resp = future()
 
@@ -147,11 +149,12 @@ object TSProc {
   }
 
   def main(args: Array[String]) {
-     if (args.length < 3) {
-        System.err.println("Usage:   \n  mesosphere.tsproc.TSProc $ZK_QUORUM $CONSUMER_GROUP $TOPIC_LIST $AWS_ACCESS_KEY $AWS_SECRET_KEY")
+     if (args.length < 6) {
+        System.err.println("Usage:   \n  mesosphere.tsproc.TSProc $ZK_QUORUM $CONSUMER_GROUP $TOPIC_LIST $INFLUXDB_PORT $AWS_ACCESS_KEY $AWS_SECRET_KEY")
         System.err.println("ZK_QUORUM         ... 10.0.6.90,10.0.6.91 ")
         System.err.println("$CONSUMER_GROUP   ... aconsumergoup ")
         System.err.println("$TOPIC_LIST       ... topic1,topic2,topic3")
+        System.err.println("$INFLUXDB_PORT    ... 98765")
         System.err.println("$AWS_ACCESS_KEY   ... ***")
         System.err.println("$AWS_SECRET_KEY   ... ***")
         System.exit(1)
@@ -160,10 +163,11 @@ object TSProc {
     val brokers = args(0)
     val consumerGroup = args(1)
     val topics = args(2)
-    val awsAccessKey = args(3)
-    val awsSecretKey = args(4)
+    val influxDBPort = args(3)
+    val awsAccessKey = args(4)
+    val awsSecretKey = args(5)
 
-    processTimeSeries(brokers, consumerGroup, topics, awsAccessKey, awsSecretKey)
+    processTimeSeries(brokers, consumerGroup, topics, influxDBPort, awsAccessKey, awsSecretKey)
     System.exit(0)
   }
 }
