@@ -11,6 +11,25 @@ In this demo we take the [crime](https://data.cityofchicago.org/Public-Safety/Cr
 
 ![Architecture](img/architecture-overview.png)
 
+
+
+## Usage
+
+### Deployment
+
+![DCOS dashboard](img/dcos-dashboard.png)
+
+First you need to clone this repo:
+
+    $ git clone https://github.com/mesosphere/time-series-demo.git && cd time-series-demo/
+
+Then you can set up and launch the components:
+
+1. Set up [Kafka and Spark](stream-processing/).
+1. Set up and launch [the Crime Data Producer](crime-data-producer/).
+1. Set up [InfluxDB and Grafana online path](online/), configure it and launch it.
+1. Set up [Kubernetes and the offline reporting Web app](offline/) and launch it.
+
 ### Dependencies
 
 - Mesosphere [DCOS 1.3](https://mesosphere.com/product/) {ALL}
@@ -24,10 +43,6 @@ In this demo we take the [crime](https://data.cityofchicago.org/Public-Safety/Cr
 - Docker Hub
  - [Offline reporting Web UI](https://hub.docker.com/r/mhausenblas/tsdemo-offline-reporting-ui/) {OFFLINE}
  - [S3 fetcher](https://hub.docker.com/r/mhausenblas/tsdemo-s3-fetcher/) {OFFLINE}
-
-### Deployment
-
-![DCOS dashboard](img/dcos-dashboard.png)
 
 To do:
 

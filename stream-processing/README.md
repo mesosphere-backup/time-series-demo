@@ -20,7 +20,7 @@ Install [Spark](https://docs.mesosphere.com/services/spark/) in the DCOS:
 
     $ dcos package install spark
 
-See the docs on [Kafka-Spark integration]http://spark.apache.org/docs/latest/streaming-kafka-integration.html and [this example](https://github.com/apache/spark/blob/master/examples/src/main/scala/org/apache/spark/examples/streaming/KafkaWordCount.scala).
+See the docs on [Kafka-Spark integration](http://spark.apache.org/docs/latest/streaming-kafka-integration.html) and [this example](https://github.com/apache/spark/blob/master/examples/src/main/scala/org/apache/spark/examples/streaming/KafkaWordCount.scala).
 
 
 ### Build

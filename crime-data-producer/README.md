@@ -1,3 +1,5 @@
+# Crime Data Producer
+
 ## Dependencies
 
 - [sbt](http://www.scala-sbt.org/)
@@ -5,22 +7,30 @@
 
 ## Building
 
-Assuming you have sbt installed, run:
+Assuming you have `sbt` installed, run:
 
     $ bin/build
 
 ### Push to S3
 
-    $ aws s3 cp s3://<bucket> target/scala-2.11/crime-data-producer-assembly-0.1.jar
+Assuming you have the AWS CLI installed, run:
 
-### Update marathon.json
+    $ aws s3 cp s3://$YOURBUCKET target/scala-2.11/crime-data-producer-assembly-0.1.jar
 
-Change the `uris` field: add the public jar S3 object URL to the `uris` field.
+### Update Marathon app spec
 
-Change the `cmd` field:
+In order to set up the crime data producer with your environment, do the following:
 
-    $(pwd)/jre*/bin/java -jar crime-data-producer-assembly-0.1.jar --brokers <broker-host>:<broker-ip>,... --topic crime --uri file:///Users/tobi/code/time-series-demo/crime-data-producer/crime-data-1000.csv
+Change the first and last `uris` field entry in `marathon-cdp.json`:
+
+    "uris": ["https://$YOURBUCKET/crime-data-producer-assembly-0.1.jar",
+             "https://downloads.mesosphere.io/java/jre-7u76-linux-x64.tar.gz",
+             "https://$YOURBUCKET/crime-data-1000.csv"],
+
+Change the `cmd` field entry in `marathon-cdp.json`. Look up where your Kafka broker runs and replace `$BROKER_HOST:PORT` with the actual values:
+
+    $(pwd)/jre*/bin/java -jar crime-data-producer-assembly-0.1.jar --brokers $BROKER_HOST:PORT --topic crime --uri file://$(pwd)/crime-data-1000.csv
 
 ## Running
 
-    $ dcos marathon app add marathon.json
+    $ dcos marathon app add marathon-cdp.json
