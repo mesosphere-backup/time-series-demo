@@ -27,7 +27,7 @@ Change the first and last `uris` field entry in `marathon-cdp.json`:
              "https://downloads.mesosphere.io/java/jre-7u76-linux-x64.tar.gz",
              "https://$YOURBUCKET/crime-data-1000.csv"],
 
-Change the `cmd` field entry in `marathon-cdp.json`. Look up where your Kafka broker runs and replace `$BROKER_HOST:PORT` with the actual values:
+Change the `cmd` field entry in `marathon-cdp.json`. Look up where your Kafka broker runs (if you've only started one, you can trivially use `dcos kafka broker list | grep endpoint` to do this lookup) and replace `$BROKER_HOST:PORT` with the actual values:
 
     $(pwd)/jre*/bin/java -jar crime-data-producer-assembly-0.1.jar --brokers $BROKER_HOST:PORT --topic crime --uri file://$(pwd)/crime-data-1000.csv
 

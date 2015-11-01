@@ -2,9 +2,12 @@
 
 ## Kafka
 
-Install and set up:
+Install Apache Kafka on DCOS:
 
      $ dcos package install kafka
+
+Add a Kafka broker:
+
      $ dcos kafka broker add 1
      broker added:
       id: 1
@@ -13,10 +16,23 @@ Install and set up:
       resources: cpus:1.00, mem:2048, heap:1024, port:auto
       failover: delay:1m, max-delay:10m
       stickiness: period:10m
-     $ dcos kafka broker start 1
-     $ dcos kafka broker list
 
-Note the broker location, you will need it when setting up the [Crime Data Producer](../crime-data-producer/).
+Start the Kafka broker:
+
+     $ dcos kafka broker start 1
+     broker started:
+       id: 1
+       active: true
+       state: running
+       resources: cpus:1.00, mem:2048, heap:1024, port:auto
+       failover: delay:1m, max-delay:10m
+       stickiness: period:10m, hostname:ip-10-0-0-170.us-west-2.compute.internal
+       task:
+         id: broker-1-552cc1bb-b1fb-4e2a-965e-970fcabbebda
+         state: running
+         endpoint: ip-10-0-0-170.us-west-2.compute.internal:1025
+
+Note the broker endpoint (in my case `ip-10-0-0-170.us-west-2.compute.internal:1025`) as you will need it when setting up the [Crime Data Producer](../crime-data-producer/).
 
 ## Using Spark to consume Kafka messages
 
@@ -25,7 +41,6 @@ Install [Spark](https://docs.mesosphere.com/services/spark/) in the DCOS:
     $ dcos package install spark
 
 See the docs on [Kafka-Spark integration](http://spark.apache.org/docs/latest/streaming-kafka-integration.html) and [this example](https://github.com/apache/spark/blob/master/examples/src/main/scala/org/apache/spark/examples/streaming/KafkaWordCount.scala).
-
 
 ### Build
 
