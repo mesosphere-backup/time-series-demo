@@ -22,17 +22,12 @@ Then you can set up and launch the components:
 1. Set up [InfluxDB and Grafana online path](online/), configure it and launch it.
 1. Set up [Kubernetes and the offline reporting Web app](offline/) and launch it.
 
-The live set up and launch steps are as follows:
-
-[![Part 1](https://asciinema.org/a/29080.png)](https://asciinema.org/a/29080)
-
+We've also recorded a walkthrough of the set up and launch steps as [asciicasts](https://asciinema.org):
 
 [![Part 1](https://asciinema.org/a/dlkzmpamxuoaye5c0pn95h5lz.png)](https://asciinema.org/a/dlkzmpamxuoaye5c0pn95h5lz)
 [![Part 2](https://asciinema.org/a/9ta8kl3xaq24jyriychzavqbv.png)](https://asciinema.org/a/9ta8kl3xaq24jyriychzavqbv)
 
-
-![DCOS dashboard](img/dcos-dashboard.png)
-
+You can also check out the overview [deployment](deployment.md) doc for more details.
 
 ### Dependencies
 
@@ -47,10 +42,6 @@ The live set up and launch steps are as follows:
 - Docker Hub
  - [Offline reporting Web UI](https://hub.docker.com/r/mhausenblas/tsdemo-offline-reporting-ui/) {OFFLINE}
  - [S3 fetcher](https://hub.docker.com/r/mhausenblas/tsdemo-s3-fetcher/) {OFFLINE}
-
-- Add documentation (asciinema) for overall setup (Michael H9)
- - Part 1 https://asciinema.org/a/dlkzmpamxuoaye5c0pn95h5lz
- - Part 2 https://asciinema.org/a/9ta8kl3xaq24jyriychzavqbv
 
 To do:
 
