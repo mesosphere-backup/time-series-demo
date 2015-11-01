@@ -135,3 +135,7 @@ Once done, kill it:
     $ dcos spark kill driver-20151101120847-0001
     Kill job succeeded.
     Message: Killing running driver
+    
+Once you have launched the Spark Streaming job as described above, head back to Grafana and you should see something like this:
+
+![Grafana live](../img/grafana-online.png)

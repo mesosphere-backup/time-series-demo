@@ -7,7 +7,7 @@ We have two Docker containers running in the [pod](k8s-offlinereporting.yaml):
 
 The offline reporting Web UI and the S3 fetcher have a shared data volume at `/tmp/tsdemo`.
 
-## Install offline reporting
+## Install Kubernetes
 
 The offline part is deployed via [Kubernetes](https://docs.mesosphere.com/services/kubernetes/), so let's install that:
 
@@ -26,7 +26,9 @@ and check if everything is fine:
     Kubernetes master is running at http://54.186.126.114
     KubeDNS is running at http://54.186.126.114/api/v1/proxy/namespaces/kube-system/services/kube-dns
     KubeUI is running at http://54.186.126.114/api/v1/proxy/namespaces/kube-system/services/kube-ui
-    
+
+## Install offline reporting Web UI
+
 In order to work properly you'll need to supply the S3 fetcher with your AWS credentials, so create a file called `aws-secret.yaml` with this content:
 
     apiVersion: v1
@@ -63,23 +65,31 @@ Finally we can launch our offline reporting [replication controller](http://kube
 
 ![K8S deployment](../img/k8s-deployment.png)
 
-Once you're done, you can remove the RC and service with `kubectl delete rc offlinereporting-rc && kubectl delete service offlinereporting-service`.
-
 In order to access the Web UI all you have to do is visit the following URL (with `$DCOS_DASHBOARD_FQHN` being your DCOS cluster dashboard URL):
 
     http://$DCOS_DASHBOARD_FQHN/service/kubernetes/api/v1/proxy/namespaces/default/services/offlinereporting-service/
 
 ![Offline reporting Web UI](../img/offline-reporting.png)
 
-## Build offline reporting Web UI
+Once you're done, you can remove the RC and service with `kubectl delete rc offlinereporting-rc && kubectl delete service offlinereporting-service`.
+
+## Customize offline reporting
+
+If you want to change the offline reporting Web UI you'll have to build your own Docker image. 
+My images are hosted on Docker hub and are automated builds. This means that whenever the 
+content in `s3-fetcher/` or in `webui/` changes, the respective Docker images are built.
+Note that the Kubernetes Replication Controller (`k8s-offlinereporting-rc.yaml`) is set up in a way that new images are automatically
+pulled (via `imagePullPolicy: Always`).
+
+### Build offline reporting Web UI
 
 The offline reporting Web UI is an automated Docker hub build, see: https://hub.docker.com/r/mhausenblas/tsdemo-offline-reporting-ui/
 
-## Build S3 fetcher
+### Build S3 fetcher
 
 The S3 data fetcher is an automated Docker hub build, see: https://hub.docker.com/r/mhausenblas/tsdemo-s3-fetcher/
 
-Manually, these are the steps:
+Manually, the S3 fetcher does the following:
 
     $ docker run -it alpine:3.2 /bin/sh
     $ curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
@@ -88,5 +98,4 @@ Manually, these are the steps:
     $ export AWS_ACCESS_KEY_ID=<access_key>
     $ export AWS_SECRET_ACCESS_KEY=<secret_key>
     $ aws s3 cp s3://mesosphere-tsdemo/offline-crime-data.json offline-crime-data.json
-
 
