@@ -7,17 +7,9 @@ In this demo we take the [crime](https://data.cityofchicago.org/Public-Safety/Cr
 - an [online](online/) path, using a time series database (InfluxDB) and visualize the crime types in Grafana.
 - an [offline](offline/) part, using Spark jobs to create an overlay heat map of aggregated crimes on Google Maps.
 
-## Architecture
-
 ![Architecture](img/architecture-overview.png)
 
-
-
 ## Usage
-
-### Deployment
-
-![DCOS dashboard](img/dcos-dashboard.png)
 
 First you need to clone this repo:
 
@@ -29,6 +21,8 @@ Then you can set up and launch the components:
 1. Set up and launch [the Crime Data Producer](crime-data-producer/).
 1. Set up [InfluxDB and Grafana online path](online/), configure it and launch it.
 1. Set up [Kubernetes and the offline reporting Web app](offline/) and launch it.
+
+![DCOS dashboard](img/dcos-dashboard.png)
 
 ### Dependencies
 

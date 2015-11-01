@@ -13,6 +13,10 @@ Install and set up:
       resources: cpus:1.00, mem:2048, heap:1024, port:auto
       failover: delay:1m, max-delay:10m
       stickiness: period:10m
+     $ dcos kafka broker start 1
+     $ dcos kafka broker list
+
+Note the broker location, you will need it when setting up the [Crime Data Producer](../crime-data-producer/).
 
 ## Using Spark to consume Kafka messages
 
