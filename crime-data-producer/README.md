@@ -1,25 +1,22 @@
-# Crime Data Producer
+# Crime Data Producer (CDP)
 
 ## Dependencies
 
 - [sbt](http://www.scala-sbt.org/)
 - [AWS CLI](http://aws.amazon.com/documentation/cli/)
 
-## Building
+## Building and deploying
 
-Assuming you have `sbt` installed, run:
+Assuming you have `sbt` installed, run to build the Crime Data Producer (CDP):
 
     $ bin/build
 
-### Push to S3
+Assuming you have the AWS CLI installed, copy to an S3 bucket like so:
 
-Assuming you have the AWS CLI installed, run:
+    $ aws s3 cp target/scala-2.11/crime-data-producer-assembly-0.1.jar s3://$YOURBUCKET
 
-    $ aws s3 cp s3://$YOURBUCKET target/scala-2.11/crime-data-producer-assembly-0.1.jar
-
-### Update Marathon app spec
-
-In order to set up the crime data producer with your environment, do the following:
+In order to adjust the crime data producer to your environment, you'll have to update
+the Marathon app spec [marathon-cdp.json](marathon-cdp.json) in two places.
 
 In `marathon-cdp.json`, in the `uris` field, change the first and the last entry to your own values:
 
@@ -33,6 +30,6 @@ Also in `marathon-cdp.json`, adapt the `cmd` field entry. Look up where your Kaf
 
 ## Running
 
-To launch the Crime Data Producer, do the following:
+To launch the CDP do the following:
 
     $ dcos marathon app add marathon-cdp.json
