@@ -24,6 +24,9 @@ Then you can set up and launch the components:
 
 The live set up and launch steps are as follows:
 
+[![Part 1](https://asciinema.org/a/29080.png)](https://asciinema.org/a/29080)
+
+
 [![Part 1](https://asciinema.org/a/dlkzmpamxuoaye5c0pn95h5lz.png)](https://asciinema.org/a/dlkzmpamxuoaye5c0pn95h5lz)
 [![Part 2](https://asciinema.org/a/9ta8kl3xaq24jyriychzavqbv.png)](https://asciinema.org/a/9ta8kl3xaq24jyriychzavqbv)
 
