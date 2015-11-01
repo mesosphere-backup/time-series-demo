@@ -117,10 +117,21 @@ Now you can define a dashboard and add a graph:
 
 ![Grafana Graph Setup](../img/grafana-graph-setup.png)
 
-
 ## Using Spark to ingest data into InfluxDB
+
+Build the Spark app:
 
     $ cd stream-processing
     $ mvn -DskipTests clean package
     $ aws s3 cp target/tsdemo-1.0-SNAPSHOT-jar-with-dependencies.jar s3://<bucket>/
-    $ dcos spark run --submit-args='-Dspark.mesos.coarse=true --class mesosphere.tsproc.TSProc https://s3-us-west-2.amazonaws.com/<bucket>/tsdemo-1.0-SNAPSHOT-jar-with-dependencies.jar leader.mesos aconsumergoup crime <access-key> <secret-key>'
+
+Submit the Spark Streaming job for execution:
+
+    $ dcos spark run --submit-args='-Dspark.mesos.coarse=true --class mesosphere.tsproc.TSProc https://s3-us-west-2.amazonaws.com/$YOUR_BUCKET/tsdemo-1.0-SNAPSHOT-jar-with-dependencies.jar leader.mesos aconsumergoup crime $INFLUXDB_API_PORT $YOUR_AWS_KEY $YOUR_AWS_SECRET'
+    Run job succeeded. Submission id: driver-20151101120847-0001
+
+Once done, kill it:
+
+    $ dcos spark kill driver-20151101120847-0001
+    Kill job succeeded.
+    Message: Killing running driver
