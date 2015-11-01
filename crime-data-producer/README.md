@@ -21,16 +21,18 @@ Assuming you have the AWS CLI installed, run:
 
 In order to set up the crime data producer with your environment, do the following:
 
-Change the first and last `uris` field entry in `marathon-cdp.json`:
+In `marathon-cdp.json`, in the `uris` field, change the first and the last entry to your own values:
 
     "uris": ["https://$YOURBUCKET/crime-data-producer-assembly-0.1.jar",
              "https://downloads.mesosphere.io/java/jre-7u76-linux-x64.tar.gz",
              "https://$YOURBUCKET/crime-data-1000.csv"],
 
-Change the `cmd` field entry in `marathon-cdp.json`. Look up where your Kafka broker runs (if you've only started one, you can trivially use `dcos kafka broker list | grep endpoint` to do this lookup) and replace `$BROKER_HOST:PORT` with the actual values:
+Also in `marathon-cdp.json`, adapt the `cmd` field entry. Look up where your Kafka broker runs (if you've only started one, you can trivially use `dcos kafka broker list | grep endpoint` to do this lookup) and replace `$BROKER_HOST:PORT` with the actual values:
 
-    $(pwd)/jre*/bin/java -jar crime-data-producer-assembly-0.1.jar --brokers $BROKER_HOST:PORT --topic crime --uri file://$(pwd)/crime-data-1000.csv
+    "cmd": "$(pwd)/jre*/bin/java -jar crime-data-producer-assembly-0.1.jar --brokers $BROKER_HOST:PORT --topic crime --uri file://$(pwd)/crime-data-1000.csv"
 
 ## Running
+
+To launch the Crime Data Producer, do the following:
 
     $ dcos marathon app add marathon-cdp.json
