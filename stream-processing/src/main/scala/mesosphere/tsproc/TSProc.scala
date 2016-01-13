@@ -50,7 +50,7 @@ object TSProc {
   def processTimeSeries(brokers: String,
     consumerGroup: String,
     topics: String,
-    influxDBPort : String,
+    influxDBIPPort : String,
     awsAccessKey: String,
     awsSecretKey: String): Unit = {
 
@@ -63,7 +63,8 @@ object TSProc {
     val numThreads = 1
 
     val topicMap = topics.split(",").map((_, numThreads.toInt)).toMap
-    val influxDBEndpoint = s"""http://influxdb.marathon.mesos:${influxDBPort}/write?db=tsdemo"""
+    // val influxDBEndpoint = s"""http://influxdb.marathon.mesos:${influxDBPort}/write?db=tsdemo"""
+    val influxDBEndpoint = s"""http://${influxDBIPPort}/write?db=tsdemo"""
     val kafkaStream = KafkaUtils.createStream(ssc, brokers, consumerGroup, topicMap)
 
     logger.info(s"Kafka consumer connected to $brokers and listening to topics: $topics")
@@ -154,7 +155,7 @@ object TSProc {
         System.err.println("ZK_QUORUM         ... 10.0.6.90,10.0.6.91 ")
         System.err.println("$CONSUMER_GROUP   ... aconsumergoup ")
         System.err.println("$TOPIC_LIST       ... topic1,topic2,topic3")
-        System.err.println("$INFLUXDB_PORT    ... 98765")
+        System.err.println("$INFLUXDB_IP_PORT ... 10.0.0.1:98765")
         System.err.println("$AWS_ACCESS_KEY   ... ***")
         System.err.println("$AWS_SECRET_KEY   ... ***")
         System.exit(1)
