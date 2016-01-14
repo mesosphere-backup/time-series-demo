@@ -1,9 +1,9 @@
 {
     "id": "/crime-data-producer",
-    "cpus": 1,
-    "memory": 1024,
+    "cpus": 0.5,
+    "memory": 200,
     "uris": ["https://s3-us-west-2.amazonaws.com/mesosphere-tsdemo/crime-data-producer-assembly-0.1.jar",
              "https://downloads.mesosphere.io/java/jre-7u76-linux-x64.tar.gz",
-             "https://s3-us-west-2.amazonaws.com/mesosphere-tsdemo/crime-data-1000.csv"],
-    "cmd": "$(pwd)/jre*/bin/java -jar crime-data-producer-assembly-0.1.jar --brokers ip-10-0-0-170.us-west-2.compute.internal:1025 --topic crime --uri file://$(pwd)/crime-data-1000.csv"
+             "https://s3-us-west-2.amazonaws.com/mesosphere-tsdemo/crime-data.csv.xz"],
+    "cmd": "$(pwd)/jre*/bin/java -jar crime-data-producer-assembly-0.1.jar --brokers 10.0.0.5:1025 --topic crime --uri file://$(pwd)/crime-data.csv.xz"
 }
